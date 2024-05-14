@@ -1,0 +1,191 @@
+import { ExampleBlock } from "@/components/example/ExampleBlock";
+import { Tabs } from "nextra/components";
+
+<ExampleBlock name="ui-components/formatting-toolbar-buttons" path="examples/02-ui-components/02-formatting-toolbar-buttons">
+  <Tabs items={["App.tsx","BlueButton.tsx"]}>
+    <Tabs.Tab>
+            <div className={"max-h-96 overflow-auto rounded-lg overscroll-contain"}>
+```tsx 
+import "@blocknote/core/fonts/inter.css";
+import {
+  BasicTextStyleButton,
+  BlockTypeSelect,
+  ColorStyleButton,
+  CreateLinkButton,
+  FormattingToolbar,
+  FormattingToolbarController,
+  ImageCaptionButton,
+  NestBlockButton,
+  ReplaceImageButton,
+  TextAlignButton,
+  UnnestBlockButton,
+  useCreateBlockNote,
+} from "@blocknote/react";
+import { BlockNoteView } from "@blocknote/mantine";
+import "@blocknote/mantine/style.css";
+
+import { BlueButton } from "./BlueButton";
+
+export default function App() {
+  // Creates a new editor instance.
+  const editor = useCreateBlockNote({
+    initialContent: [
+      {
+        type: "paragraph",
+        content: "Welcome to this demo!",
+      },
+      {
+        type: "paragraph",
+        content: [
+          {
+            type: "text",
+            text: "You can now toggle ",
+            styles: {},
+          },
+          {
+            type: "text",
+            text: "blue",
+            styles: { textColor: "blue", backgroundColor: "blue" },
+          },
+          {
+            type: "text",
+            text: " and ",
+            styles: {},
+          },
+          {
+            type: "text",
+            text: "code",
+            styles: { code: true },
+          },
+          {
+            type: "text",
+            text: " styles with new buttons in the Formatting Toolbar",
+            styles: {},
+          },
+        ],
+      },
+      {
+        type: "paragraph",
+        content: "Select some text to try them out",
+      },
+      {
+        type: "paragraph",
+      },
+    ],
+  });
+
+  // Renders the editor instance.
+  return (
+    <BlockNoteView editor={editor} formattingToolbar={false}>
+      <FormattingToolbarController
+        formattingToolbar={() => (
+          <FormattingToolbar>
+            <BlockTypeSelect key={"blockTypeSelect"} />
+
+            {/* Extra button to toggle blue text & background */}
+            <BlueButton key={"customButton"} />
+
+            <ImageCaptionButton key={"imageCaptionButton"} />
+            <ReplaceImageButton key={"replaceImageButton"} />
+
+            <BasicTextStyleButton
+              basicTextStyle={"bold"}
+              key={"boldStyleButton"}
+            />
+            <BasicTextStyleButton
+              basicTextStyle={"italic"}
+              key={"italicStyleButton"}
+            />
+            <BasicTextStyleButton
+              basicTextStyle={"underline"}
+              key={"underlineStyleButton"}
+            />
+            <BasicTextStyleButton
+              basicTextStyle={"strike"}
+              key={"strikeStyleButton"}
+            />
+            {/* Extra button to toggle code styles */}
+            <BasicTextStyleButton
+              key={"codeStyleButton"}
+              basicTextStyle={"code"}
+            />
+
+            <TextAlignButton
+              textAlignment={"left"}
+              key={"textAlignLeftButton"}
+            />
+            <TextAlignButton
+              textAlignment={"center"}
+              key={"textAlignCenterButton"}
+            />
+            <TextAlignButton
+              textAlignment={"right"}
+              key={"textAlignRightButton"}
+            />
+
+            <ColorStyleButton key={"colorStyleButton"} />
+
+            <NestBlockButton key={"nestBlockButton"} />
+            <UnnestBlockButton key={"unnestBlockButton"} />
+
+            <CreateLinkButton key={"createLinkButton"} />
+          </FormattingToolbar>
+        )}
+      />
+    </BlockNoteView>
+  );
+}
+
+```
+            </div>
+          </Tabs.Tab><Tabs.Tab>
+            <div className={"max-h-96 overflow-auto rounded-lg overscroll-contain"}>
+```tsx 
+import {
+  useBlockNoteEditor,
+  useComponentsContext,
+  useEditorContentOrSelectionChange,
+} from "@blocknote/react";
+import "@blocknote/mantine/style.css";
+import { useState } from "react";
+
+// Custom Formatting Toolbar Button to toggle blue text & background color.
+export function BlueButton() {
+  const editor = useBlockNoteEditor();
+
+  const Components = useComponentsContext()!;
+
+  // Tracks whether the text & background are both blue.
+  const [isSelected, setIsSelected] = useState<boolean>(
+    editor.getActiveStyles().textColor === "blue" &&
+      editor.getActiveStyles().backgroundColor === "blue"
+  );
+
+  // Updates state on content or selection change.
+  useEditorContentOrSelectionChange(() => {
+    setIsSelected(
+      editor.getActiveStyles().textColor === "blue" &&
+        editor.getActiveStyles().backgroundColor === "blue"
+    );
+  }, editor);
+
+  return (
+    <Components.FormattingToolbar.Button
+      mainTooltip={"Blue Text & Background"}
+      onClick={() => {
+        editor.toggleStyles({
+          textColor: "blue",
+          backgroundColor: "blue",
+        });
+      }}
+      isSelected={isSelected}>
+      Blue
+    </Components.FormattingToolbar.Button>
+  );
+}
+
+```
+            </div>
+          </Tabs.Tab>
+  </Tabs>
+</ExampleBlock>

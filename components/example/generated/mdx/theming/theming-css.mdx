@@ -1,0 +1,65 @@
+import { ExampleBlock } from "@/components/example/ExampleBlock";
+import { Tabs } from "nextra/components";
+
+<ExampleBlock name="theming/theming-css" path="examples/03-theming/03-theming-css">
+  <Tabs items={["App.tsx","styles.css"]}>
+    <Tabs.Tab>
+            <div className={"max-h-96 overflow-auto rounded-lg overscroll-contain"}>
+```tsx 
+import "@blocknote/core/fonts/inter.css";
+import { useCreateBlockNote } from "@blocknote/react";
+import { BlockNoteView } from "@blocknote/mantine";
+import "@blocknote/mantine/style.css";
+
+import "./styles.css";
+
+export default function App() {
+  // Creates a new editor instance.
+  const editor = useCreateBlockNote({
+    initialContent: [
+      {
+        type: "paragraph",
+        content: "Welcome to this demo!",
+      },
+      {
+        type: "paragraph",
+        content: "You'll see that the text is now blue",
+      },
+      {
+        type: "paragraph",
+        content:
+          "Press the '/' key - the hovered Slash Menu items are also blue",
+      },
+      {
+        type: "paragraph",
+      },
+    ],
+  });
+
+  // Renders the editor instance using a React component.
+  // Adds `data-theming-css-demo` to restrict styles to only this demo.
+  return <BlockNoteView editor={editor} data-theming-css-demo />;
+}
+
+```
+            </div>
+          </Tabs.Tab><Tabs.Tab>
+            <div className={"max-h-96 overflow-auto rounded-lg overscroll-contain"}>
+```css 
+/* Adds border and shadow to editor */
+.bn-container[data-theming-css-demo] .bn-editor * {
+  color: blue;
+}
+
+/* Makes slash menu hovered items blue */
+.bn-container[data-theming-css-demo]
+  .bn-suggestion-menu-item[aria-selected="true"],
+.bn-container[data-theming-css-demo] .bn-suggestion-menu-item:hover {
+  background-color: blue;
+}
+
+```
+            </div>
+          </Tabs.Tab>
+  </Tabs>
+</ExampleBlock>

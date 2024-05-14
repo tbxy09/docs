@@ -1,0 +1,26 @@
+import { ExampleBlock } from "@/components/example/ExampleBlock";
+import { Tabs } from "nextra/components";
+
+<ExampleBlock name="basic/ariakit" path="examples/01-basic/09-ariakit">
+  <Tabs items={["App.tsx"]}>
+    <Tabs.Tab>
+            <div className={"max-h-96 overflow-auto rounded-lg overscroll-contain"}>
+```tsx 
+import "@blocknote/core/fonts/inter.css";
+import { useCreateBlockNote } from "@blocknote/react";
+import { BlockNoteView } from "@blocknote/ariakit";
+import "@blocknote/ariakit/style.css";
+
+export default function App() {
+  // Creates a new editor instance.
+  const editor = useCreateBlockNote();
+
+  // Renders the editor instance using a React component.
+  return <BlockNoteView editor={editor} />;
+}
+
+```
+            </div>
+          </Tabs.Tab>
+  </Tabs>
+</ExampleBlock>

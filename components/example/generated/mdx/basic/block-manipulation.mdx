@@ -1,0 +1,104 @@
+import { ExampleBlock } from "@/components/example/ExampleBlock";
+import { Tabs } from "nextra/components";
+
+<ExampleBlock name="basic/block-manipulation" path="examples/01-basic/05-block-manipulation">
+  <Tabs items={["App.tsx","styles.css"]}>
+    <Tabs.Tab>
+            <div className={"max-h-96 overflow-auto rounded-lg overscroll-contain"}>
+```tsx 
+import "@blocknote/core/fonts/inter.css";
+import { useCreateBlockNote } from "@blocknote/react";
+import { BlockNoteView } from "@blocknote/mantine";
+import "@blocknote/mantine/style.css";
+
+import "./styles.css";
+
+export default function App() {
+  const editor = useCreateBlockNote();
+
+  return (
+    <div>
+      <BlockNoteView editor={editor} />
+      <div className={"edit-buttons"}>
+        {/*Inserts a new block at start of document.*/}
+        <button
+          className={"edit-button"}
+          onClick={() =>
+            editor.insertBlocks(
+              [
+                {
+                  content:
+                    "This block was inserted at " +
+                    new Date().toLocaleTimeString(),
+                },
+              ],
+              editor.document[0],
+              "before"
+            )
+          }>
+          Insert First Block
+        </button>
+        {/*Updates the first block*/}
+        <button
+          className={"edit-button"}
+          onClick={() =>
+            editor.updateBlock(editor.document[0], {
+              content:
+                "This block was updated at " + new Date().toLocaleTimeString(),
+            })
+          }>
+          Update First Block
+        </button>
+        {/*Removes the first block*/}
+        <button
+          className={"edit-button"}
+          onClick={() => editor.removeBlocks([editor.document[0]])}>
+          Remove First Block
+        </button>
+        {/*Replaces the first block*/}
+        <button
+          className={"edit-button"}
+          onClick={() =>
+            editor.replaceBlocks(
+              [editor.document[0]],
+              [
+                {
+                  content:
+                    "This block was replaced at " +
+                    new Date().toLocaleTimeString(),
+                },
+              ]
+            )
+          }>
+          Replace First Block
+        </button>
+      </div>
+    </div>
+  );
+}
+
+```
+            </div>
+          </Tabs.Tab><Tabs.Tab>
+            <div className={"max-h-96 overflow-auto rounded-lg overscroll-contain"}>
+```css 
+.edit-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+}
+
+.edit-button {
+    border: 1px solid gray;
+    border-radius: 4px;
+    padding-inline: 4px;
+}
+
+.edit-button:hover {
+    border: 1px solid lightgrey;
+}
+```
+            </div>
+          </Tabs.Tab>
+  </Tabs>
+</ExampleBlock>
